@@ -29,6 +29,10 @@ body {
     margin-top: 75px;
 }
 
+button:hover {
+    background-color: rgb(255, 100, 193);
+}
+
 button {
     background-color: rgb(255, 19, 240);
     color: rgb(211, 211, 211);

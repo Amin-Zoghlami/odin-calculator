@@ -74,16 +74,30 @@ for (let i = 0; i < 10; i++) {
     const numberButton = document.querySelector(`.button${i}`);
     numberButton.addEventListener("click", () => {
         displayNumber += `${i}`;
-        changeDisplay(`${i}`);
+        changeDisplay();
     });
 }
+
+const decimalButton = document.querySelector(".decimal")
+decimalButton.addEventListener("click", () => {
+    displayNumber += '.';
+    changeDisplay();
+});
+
+const deleteButton = document.querySelector(".delete");
+deleteButton.addEventListener("click", () => {
+    displayNumber = displayNumber.slice(0, -1);
+    changeDisplay();
+});
 
 const clearButton = document.querySelector(".clear");
 clearButton.addEventListener("click", () => clearAll());
 
 const equalButton = document.querySelector(".equal");
-equalButton.addEventListener("click", () => 
-    operateDisplay(previousNumber, displayNumber, currentOperator));
+equalButton.addEventListener("click", () => {
+    operateDisplay(previousNumber, displayNumber, currentOperator)
+    currentOperator = '';
+});
 
 const addButton = document.querySelector(".add");
 addButton.addEventListener("click", () => {
@@ -116,3 +130,4 @@ divideButton.addEventListener("click", () => {
     displayNumber = "";
     currentOperator = '/';
 });
+
