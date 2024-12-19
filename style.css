@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(211, 211, 211);
+}
+
+.calculator {
+    background-color: rgb(33, 33, 33);
+    height: 800px;
+    width: 550px;
+    padding-top: 50px;
+    margin: auto;
+}
+
+.display {
+    background-color: rgb(211, 211, 211);
+    height: 150px;
+    width: 400px;
+    margin: auto;
+}
+
+.buttons {
+    text-align: center;
+    margin-top: 75px;
+}
+
+button {
+    background-color: rgb(255, 19, 240);
+    height: 100px;
+    width: 100px;
+    border: 0;
+    border-radius: 50%;
+    margin: 10px;
+}
