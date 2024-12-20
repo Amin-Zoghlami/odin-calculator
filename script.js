@@ -1,19 +1,31 @@
 function add(a, b) {
     a = Number(a);
     b = Number(b);
-    return a + b;
+    const sum = `${Math.round((a + b) * 1000) / 1000}`;
+    if (sum.length >= 12) {
+        return "OVERFLOW";
+    }
+    return `${sum}`;
 }
 
 function subtract(a, b) {
     a = Number(a);
     b = Number(b);
-    return a - b;
+    const difference = `${Math.round((a - b) * 1000) / 1000}`;
+    if (difference.length >= 12) {
+        return "OVERFLOW";
+    }
+    return `${difference}`;
 }
 
 function multiply(a, b) {
     a = Number(a);
     b = Number(b);
-    return a * b;
+    const product = `${Math.round((a * b) * 1000) / 1000}`;
+    if (product.length >= 12) {
+        return "OVERFLOW";
+    }
+    return `${product}`;
 }
 
 function divide(a, b) {
@@ -22,112 +34,121 @@ function divide(a, b) {
     if (b === 0) {
         return "ERROR";
     }
-    return a / b;
+    const quotient = `${Math.round((a / b) * 1000) / 1000}`;
+    if (quotient.length >= 12) {
+        return "OVERFLOW";
+    }
+    return `${quotient}`;
+}
+
+function putNumber(num) {
+    if (displayNumber.length >= 12) {
+        return;
+    }
+    displayNumber += `${num}`;
+    changeDisplay();
+}
+
+function putDecimalPoint() {
+    if (!hasDecimalPoint) {
+        displayNumber += '.';
+        changeDisplay();
+        hasDecimalPoint = true;
+    }
+}
+
+function deleteDigit() {
+    if (displayNumber.charAt(displayNumber.length - 1) === '.') {
+        hasDecimalPoint = false;
+    }
+    displayNumber = displayNumber.slice(0, -1);
+    changeDisplay();
 }
 
 function clearAll() {
-    display.textContent = "";
     displayNumber = "";
     previousNumber = "";
-    operator = '';
+    currentOperator = '';
+    hasDecimalPoint = false;
+    changeDisplay();
 }
 
-function changeDisplay() {
-    display.textContent = displayNumber;
-}
-
-function operateDisplay(a, b, operator) {
-    if (previousNumber === ""
-    || displayNumber === ""
-    || currentOperator === "") {
+function operate(a, b, operator) {
+    // Stops operate with no second input
+    if (displayNumber === "") {
         return;
     }
 
     if (operator === '+') {
         displayNumber = add(a, b);
         changeDisplay();
-    }
-    if (operator === '-') {
+    } else if (operator === '-') {
         displayNumber = subtract(a, b);
         changeDisplay();
-    } 
-    if (operator === '*') {
+    } else if (operator === '*') {
         displayNumber = multiply(a, b);
         changeDisplay();
-    } 
-    if (operator === '/') {
+    } else if (operator === '/') {
         displayNumber = divide(a, b);
         changeDisplay();
-        if (displayNumber === "ERROR") {
-            displayNumber = "";
-        }
     }
+        previousNumber = displayNumber;
+        displayNumber = "";
+        hasDecimalPoint = false;
+}
+
+function changeDisplay() {
+    display.textContent = displayNumber;
 }
 
 let displayNumber = "";
 let previousNumber = "";
 let currentOperator= '';
+let hasDecimalPoint = false;
 
 const display = document.querySelector(".display");
 
 for (let i = 0; i < 10; i++) {
     const numberButton = document.querySelector(`.button${i}`);
-    numberButton.addEventListener("click", () => {
-        displayNumber += `${i}`;
-        changeDisplay();
-    });
+    numberButton.addEventListener("click", () => putNumber(i));
 }
 
 const decimalButton = document.querySelector(".decimal")
-decimalButton.addEventListener("click", () => {
-    displayNumber += '.';
-    changeDisplay();
-});
+decimalButton.addEventListener("click", () => putDecimalPoint());
 
 const deleteButton = document.querySelector(".delete");
-deleteButton.addEventListener("click", () => {
-    displayNumber = displayNumber.slice(0, -1);
-    changeDisplay();
-});
+deleteButton.addEventListener("click", () => deleteDigit());
 
 const clearButton = document.querySelector(".clear");
 clearButton.addEventListener("click", () => clearAll());
 
 const equalButton = document.querySelector(".equal");
 equalButton.addEventListener("click", () => {
-    operateDisplay(previousNumber, displayNumber, currentOperator)
+    operate(previousNumber, displayNumber, currentOperator)   
     currentOperator = '';
 });
 
 const addButton = document.querySelector(".add");
 addButton.addEventListener("click", () => {
-    operateDisplay(previousNumber, displayNumber, currentOperator);
-    previousNumber = displayNumber;
-    displayNumber = "";
+    operate(previousNumber, displayNumber, currentOperator);
     currentOperator = '+';
 });
 
 const subtractButton = document.querySelector(".subtract");
 subtractButton.addEventListener("click", () => {
-    operateDisplay(previousNumber, displayNumber, currentOperator);
-    previousNumber = displayNumber;
-    displayNumber = "";
+    operate(previousNumber, displayNumber, currentOperator);
     currentOperator = '-';
 });
 
 const multiplyButton = document.querySelector(".multiply");
 multiplyButton.addEventListener("click", () => {
-    operateDisplay(previousNumber, displayNumber, currentOperator);
-    previousNumber = displayNumber;
-    displayNumber = "";
+    operate(previousNumber, displayNumber, currentOperator);
     currentOperator = '*';
 });
 
 const divideButton = document.querySelector(".divide");
 divideButton.addEventListener("click", () => {
-    operateDisplay(previousNumber, displayNumber, currentOperator);
-    previousNumber = displayNumber;
-    displayNumber = "";
+    operate(previousNumber, displayNumber, currentOperator);
     currentOperator = '/';
 });
 
