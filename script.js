@@ -58,6 +58,9 @@ function putDecimalPoint() {
 }
 
 function deleteDigit() {
+    if (displayNumber === "") {
+        return;
+    }
     if (displayNumber.charAt(displayNumber.length - 1) === '.') {
         hasDecimalPoint = false;
     }
@@ -73,22 +76,22 @@ function clearAll() {
     changeDisplay();
 }
 
-function operate(a, b, operator) {
+function operate(a, b) {
     // Stops operate with no second input
     if (displayNumber === "") {
         return;
     }
 
-    if (operator === '+') {
+    if (currentOperator === '+') {
         displayNumber = add(a, b);
         changeDisplay();
-    } else if (operator === '-') {
+    } else if (currentOperator === '-') {
         displayNumber = subtract(a, b);
         changeDisplay();
-    } else if (operator === '*') {
+    } else if (currentOperator === '*') {
         displayNumber = multiply(a, b);
         changeDisplay();
-    } else if (operator === '/') {
+    } else if (currentOperator === '/') {
         displayNumber = divide(a, b);
         changeDisplay();
     }
@@ -124,31 +127,31 @@ clearButton.addEventListener("click", () => clearAll());
 
 const equalButton = document.querySelector(".equal");
 equalButton.addEventListener("click", () => {
-    operate(previousNumber, displayNumber, currentOperator)   
+    operate(previousNumber, displayNumber)   
     currentOperator = '';
 });
 
 const addButton = document.querySelector(".add");
 addButton.addEventListener("click", () => {
-    operate(previousNumber, displayNumber, currentOperator);
+    operate(previousNumber, displayNumber);
     currentOperator = '+';
 });
 
 const subtractButton = document.querySelector(".subtract");
 subtractButton.addEventListener("click", () => {
-    operate(previousNumber, displayNumber, currentOperator);
+    operate(previousNumber, displayNumber);
     currentOperator = '-';
 });
 
 const multiplyButton = document.querySelector(".multiply");
 multiplyButton.addEventListener("click", () => {
-    operate(previousNumber, displayNumber, currentOperator);
+    operate(previousNumber, displayNumber);
     currentOperator = '*';
 });
 
 const divideButton = document.querySelector(".divide");
 divideButton.addEventListener("click", () => {
-    operate(previousNumber, displayNumber, currentOperator);
+    operate(previousNumber, displayNumber);
     currentOperator = '/';
 });
 
